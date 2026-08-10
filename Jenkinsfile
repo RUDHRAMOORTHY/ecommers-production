@@ -4,9 +4,6 @@ pipeline {
     options {
         disableConcurrentBuilds()
     }
-    tools {
-    sonarRunner 'sonar-scanner'
-    }
 
     environment {
         IMAGE_NAME = "rudhra2710/ecommers-flask-app"
@@ -43,8 +40,11 @@ pipeline {
         stage("Sonarqube Analysis"){
             steps{
                 withSonarQubeEnv('sonar-server') {
-                    sh ''' sonar-scanner -Dsonar.projectName=ECOMMERS \
-                    -Dsonar.projectKey=ECOMMERS '''
+                    script {
+                        def scannerHome = tool 'sonar-scanner'
+                        sh """${scannerHome}/bin/sonar-scanner -Dsonar.projectName=ECOMMERS \
+                        -Dsonar.projectKey=ECOMMERS"""
+                    }
                 }
             }
         }
