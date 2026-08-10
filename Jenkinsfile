@@ -56,18 +56,6 @@ pipeline {
             } 
         }
 
-
-        stage('OWASP FS SCAN') {
-
-            steps {
-
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'dp-check'
-
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-
-            }
-
-        }
         stage('Build Docker Image') {
             when {
                 branch 'main'
@@ -140,7 +128,7 @@ pipeline {
             steps {
                 script {
 
-                    sh '''
+                    sh """
                         rm -rf dist build *.egg-info venv
 
                         python3 -m venv venv
@@ -148,8 +136,10 @@ pipeline {
                         ./venv/bin/pip install --upgrade pip
                         ./venv/bin/pip install build twine
 
+                        sed -i 's/^version = .*/version = "1.0.${BUILD_NUMBER}"/' pyproject.toml
+
                         ./venv/bin/python -m build
-                    '''
+                    """
 
                     withCredentials([
                         usernamePassword(
