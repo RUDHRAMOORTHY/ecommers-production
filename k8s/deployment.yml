@@ -19,6 +19,6 @@ spec:
     spec:
       containers:
         - name: ecommers-container
-          image: rudhra2710/ecommers-flask-app:build-18
+          image: rudhra2710/ecommers-flask-app:build-19
           ports:
             - containerPort: 5000
