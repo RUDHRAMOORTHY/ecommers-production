@@ -4,6 +4,9 @@ pipeline {
     options {
         disableConcurrentBuilds()
     }
+    tools {
+    sonarRunner 'sonar-scanner'
+    }
 
     environment {
         IMAGE_NAME = "rudhra2710/ecommers-flask-app"
