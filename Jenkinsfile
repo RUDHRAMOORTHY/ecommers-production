@@ -25,9 +25,6 @@ pipeline {
                     echo "===== Python ====="
                     python3 --version
 
-                    echo "===== Pip ====="
-                    pip3 --version
-
                     echo "===== Docker ====="
                     docker --version
 
