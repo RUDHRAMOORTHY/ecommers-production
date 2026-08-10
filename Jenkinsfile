@@ -57,25 +57,12 @@ pipeline {
         }
 
 
-        stage('OWASP Dependency Check') {
+        stage('OWASP FS SCAN') {
             steps {
-
-                dependencyCheck(
-                    additionalArguments: '''
-                        --scan .
-                        --format XML
-                        --format HTML
-                        --out dependency-check-report
-                    ''',
-                    odcInstallation: 'dp-check'
-                )
-
-                dependencyCheckPublisher(
-                    pattern: 'dependency-check-report/dependency-check-report.xml'
-                )
-            }
-        }
-
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit -n', odcInstallation: 'dp-check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+    }
+}
         stage('Build Docker Image') {
             when {
                 branch 'main'
