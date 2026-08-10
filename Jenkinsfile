@@ -136,11 +136,11 @@ pipeline {
                 script {
 
                     sh '''
-                        python3 -m pip install --upgrade build twine
+                        /usr/bin/python3 -m pip install --upgrade build twine
 
                         rm -rf dist build *.egg-info
 
-                        python3 -m build
+                        /usr/bin/python3 -m build
                     '''
 
                     withCredentials([
