@@ -9,7 +9,7 @@ pipeline {
         IMAGE_NAME = "rudhra2710/ecommers-flask-app"
         GIT_USER   = "RUDHRAMOORTHY"
         GIT_EMAIL  = "rudhra2710@gmail.com"
-        SONARQUBE_SERVER = 'sonar-server'
+        SONARQUBE_SERVER = "sonar-server"
     }
 
     stages {
@@ -36,21 +36,24 @@ pipeline {
                 '''
             }
         }
+        
         stage("Sonarqube Analysis"){
             steps{
                 withSonarQubeEnv('sonar-server') {
-                    sh ''' $SONARQUBE_SERVER/bin/sonar-scanner -Dsonar.projectName=zomato \
-                    -Dsonar.projectKey=zomato '''
+                    sh ''' sonar-scanner -Dsonar.projectName=ECOMMERS \
+                    -Dsonar.projectKey=ECOMMERS '''
                 }
             }
         }
         stage("Code Quality Gate"){
-           steps {
+            steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-cred' 
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-cred'
                 }
             } 
         }
+
+
         stage('OWASP Dependency Check') {
             steps {
 
