@@ -136,11 +136,14 @@ pipeline {
                 script {
 
                     sh '''
-                        /usr/bin/python3 -m pip install --upgrade build twine
+                        rm -rf dist build *.egg-info venv
 
-                        rm -rf dist build *.egg-info
+                        python3 -m venv venv
 
-                        /usr/bin/python3 -m build
+                        ./venv/bin/pip install --upgrade pip
+                        ./venv/bin/pip install build twine
+
+                        ./venv/bin/python -m build
                     '''
 
                     withCredentials([
@@ -152,7 +155,7 @@ pipeline {
                     ]) {
 
                         sh '''
-                            python3 -m twine upload \
+                            ./venv/bin/python -m twine upload \
                                 --repository-url http://43.204.214.128:8081/repository/python-hosted/ \
                                 -u "$NEXUS_USER" \
                                 -p "$NEXUS_PASS" \
