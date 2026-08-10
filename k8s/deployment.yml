@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadate:
+  name: ecommers-deployment
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchlabels:
+      app: ecommers
+  template:
+    metadate:
+      name: ecommers-pod
+      labels:
+        app: ecommers
+    spec:
+      containers:
+        - name: ecommers-container
+          image: rudhra2710/ecommers-flask-app:latest
+          ports:
+            containerPort: 5000
